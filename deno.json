@@ -1,0 +1,23 @@
+{
+  "version": "1.0.0",
+  "tasks": {
+    "dev": "deno serve --port 4000 --watch src/main.ts"
+  },
+  "nodeModulesDir": true,
+  "fmt": {
+    "semiColons": false,
+    "lineWidth": 80,
+    "singleQuote": false,
+    "useTabs": false,
+    "indentWidth": 2
+  },
+  "lint": {
+    "report": "pretty"
+  },
+  "imports": {
+    "@hono/hono": "jsr:@hono/hono@^4.4.7",
+    "hono-rate-limiter": "npm:hono-rate-limiter@^0.3.0",
+    "jsonwebtoken": "npm:jsonwebtoken@^9.0.2",
+    "mongoose": "npm:mongoose@^8.4.3"
+  }
+}
