@@ -1,7 +1,8 @@
 {
   "version": "1.0.0",
   "tasks": {
-    "dev": "deno serve --port 4000 --watch src/main.ts"
+    "dev": "deno serve --port 4000 --watch src/main.ts",
+    "start": "deno serve --port 4000 src/main.ts"
   },
   "nodeModulesDir": true,
   "fmt": {

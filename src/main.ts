@@ -3,10 +3,9 @@ import { cors } from "jsr:@hono/hono/cors"
 import { csrf } from "jsr:@hono/hono/csrf"
 import { logger } from "jsr:@hono/hono/logger"
 import { secureHeaders } from "jsr:@hono/hono/secure-headers"
-import { authRoutes } from "./routes/auth.routes.ts"
+import { v1Router } from "./routes/v1.routes.ts"
 
-const app = new Hono()
-  .use(logger())
+const app = new Hono().use(logger())
   .use(
     cors({
       origin: "*",
@@ -25,6 +24,7 @@ const app = new Hono()
     }),
   )
 
-app.route("/auth", authRoutes)
+app.get("/", (c) => c.json({ msg: "This is a message from default app" }))
+app.route("v1", v1Router)
 
 export default app
