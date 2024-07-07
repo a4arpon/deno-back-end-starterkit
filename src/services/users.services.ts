@@ -1,9 +1,10 @@
+import { User } from "#models/user.model.ts"
+import { exception, HTTPStatus, response } from "#utils/response.ts"
 import { Context } from "hono"
-import { User } from "../models/user.model.ts"
 
 export class UsersServices {
   users(ctx: Context) {
-    return ctx.json({ message: "This is a list of all users" })
+    return response(ctx, "This is a list of all users")
   }
 
   async createUser(ctx: Context) {
@@ -13,9 +14,11 @@ export class UsersServices {
       await User.findOne({ phone: phone })
 
     if (previousUser) {
-      return ctx.json({
-        message: "User already existed on this email or phone",
-      })
+      return exception(
+        ctx,
+        HTTPStatus.Conflict,
+        new Error("User already existed on this email or phone"),
+      )
     }
 
     await User.create({
@@ -24,8 +27,6 @@ export class UsersServices {
       phone: phone,
     })
 
-    return ctx.json({
-      message: "User created successfully",
-    })
+    return response(ctx, "User created successfully")
   }
 }

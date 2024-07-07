@@ -4,6 +4,7 @@
     "specifiers": {
       "jsr:@hono/hono": "jsr:@hono/hono@4.4.11",
       "jsr:@hono/hono@^4.4.7": "jsr:@hono/hono@4.4.11",
+      "npm:@types/node": "npm:@types/node@18.16.19",
       "npm:mongoose@^8.4.3": "npm:mongoose@8.4.5",
       "npm:mongoose@^8.4.5": "npm:mongoose@8.4.5"
     },
@@ -18,6 +19,10 @@
         "dependencies": {
           "sparse-bitfield": "sparse-bitfield@3.0.3"
         }
+      },
+      "@types/node@18.16.19": {
+        "integrity": "sha512-IXl7o+R9iti9eBW4Wg2hx1xQDig183jj7YLn8F7udNceyfkbn1ZxmzZXuak20gR40D7pIkIY1kYGx5VIGbaHKA==",
+        "dependencies": {}
       },
       "@types/webidl-conversions@7.0.3": {
         "integrity": "sha512-CiJJvcRtIgzadHCYXw7dqEnMNRjhGZlYK05Mj9OyktqV8uVT8fD2BFOB7S1uwBE3Kj2Z+4UyPmFw/Ixgw/LAlA==",

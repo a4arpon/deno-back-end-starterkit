@@ -1,11 +1,11 @@
+import { helmetConfig } from "#config/helmet.config.ts"
+import { Router } from "#routes/router.ts"
 import { Context, Hono } from "hono"
 import { cors } from "hono/cors"
 import { logger } from "hono/logger"
 import { secureHeaders } from "hono/secure-headers"
 import { load } from "load"
 import mongoose, { type ConnectOptions } from "mongoose"
-import { helmetConfig } from "./config/helmet.config.ts"
-import { Router } from "./routes/router.ts"
 
 class Bootstrap {
   public app = new Hono()
@@ -19,9 +19,10 @@ class Bootstrap {
         console.log("Deno Running... 🦕🦖")
       })
     } catch (error) {
-      this.disconnectDB()
-      console.error("Application has some runtime error : ", error)
-      Deno.exit(1)
+      this.disconnectDB().then(() => {
+        console.error("Application has some runtime error : ", error)
+        Deno.exit(1)
+      })
     }
   }
 
@@ -41,8 +42,6 @@ class Bootstrap {
   }
 
   private async databaseConnection() {
-    const shouldIConnecDB = false
-
     const options: Partial<ConnectOptions> = {
       autoIndex: false,
       retryWrites: true,
@@ -50,11 +49,9 @@ class Bootstrap {
       connectTimeoutMS: 12000,
     }
 
-    if (shouldIConnecDB) {
-      await mongoose
-        .connect(Deno.env.get("MONGODB_URL") || "", options as ConnectOptions)
-        .then(() => console.log("Database Connected... 🔌⚡✅"))
-    }
+    await mongoose
+      .connect(Deno.env.get("MONGODB_URL") || "", options as ConnectOptions)
+      .then(() => console.log("Database Connected... 🔌⚡✅"))
   }
 
   private async disconnectDB() {

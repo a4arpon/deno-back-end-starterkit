@@ -13,9 +13,19 @@
     "indentWidth": 2
   },
   "lint": {
-    "report": "pretty"
+    "report": "pretty",
+    "rules": {
+      "exclude": ["no-unused-vars"]
+    }
   },
   "imports": {
+    "#routes/": "./src/routes/",
+    "#models/": "./src/models/",
+    "#types/": "./src/types/",
+    "#services/": "./src/services/",
+    "#config/": "./src/config/",
+    "#lib/": "./src/lib/",
+    "#utils/": "./src/utils/",
     "hono": "jsr:@hono/hono@^4.4.7",
     "hono-rate-limiter": "npm:hono-rate-limiter@^0.3.0",
     "jsonwebtoken": "npm:jsonwebtoken@^9.0.2",
