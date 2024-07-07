@@ -1,9 +1,9 @@
-import { Hono } from "hono"
+import { Context, Hono } from "hono"
 import { cors } from "hono/cors"
 import { logger } from "hono/logger"
 import { secureHeaders } from "hono/secure-headers"
 import { load } from "load"
-import mongoose, { ConnectOptions } from "mongoose"
+import mongoose, { type ConnectOptions } from "mongoose"
 import { helmetConfig } from "./config/helmet.config.ts"
 import { Router } from "./routes/router.ts"
 
@@ -31,25 +31,30 @@ class Bootstrap {
 
   private middlewares() {
     this.app.use(logger())
-    this.app.use(cors({
-      origin: "*",
-      credentials: true,
-    }))
+    this.app.use(
+      cors({
+        origin: "*",
+        credentials: true,
+      }),
+    )
     this.app.use(secureHeaders(helmetConfig))
   }
 
   private async databaseConnection() {
+    const shouldIConnecDB = false
+
     const options: Partial<ConnectOptions> = {
       autoIndex: false,
       retryWrites: true,
-      dbName: "TestDB",
+      dbName: "YOUR_DB_NAME",
       connectTimeoutMS: 12000,
     }
 
-    await mongoose.connect(
-      Deno.env.get("MONGODB_URL") || "",
-      options as ConnectOptions,
-    ).then(() => console.log("Database Connected... 🔌⚡✅"))
+    if (shouldIConnecDB) {
+      await mongoose
+        .connect(Deno.env.get("MONGODB_URL") || "", options as ConnectOptions)
+        .then(() => console.log("Database Connected... 🔌⚡✅"))
+    }
   }
 
   private async disconnectDB() {
@@ -58,7 +63,7 @@ class Bootstrap {
   }
 
   private routerSetup() {
-    this.app.get("/", (c) => {
+    this.app.get("/", (c: Context) => {
       return c.json({ msg: "Hello World, This is 🦕 Deno 🦖" })
     })
 

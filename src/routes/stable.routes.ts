@@ -12,5 +12,6 @@ export class StableRoutes {
     const usersServices = new UsersServices()
     this.stableRoutes.basePath("users")
       .get("/", usersServices.users)
+      .post("/create-user", usersServices.createUser)
   }
 }

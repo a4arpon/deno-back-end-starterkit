@@ -20,7 +20,6 @@
     "hono-rate-limiter": "npm:hono-rate-limiter@^0.3.0",
     "jsonwebtoken": "npm:jsonwebtoken@^9.0.2",
     "mongoose": "npm:mongoose@^8.4.5",
-    "stripe": "npm:stripe@16.2.0",
     "load": "https://deno.land/std@0.224.0/dotenv/mod.ts"
   }
 }
