@@ -3,9 +3,12 @@ import { Context } from "#types/shared.types.ts"
 import { safeAsync } from "#utils/async.ts"
 import { response } from "#utils/response.ts"
 import { Hono } from "hono"
+import { authGuard } from "../middlewares/auth.guard.ts"
 
 export class StableRoutes {
   public stableRoutes = new Hono()
+
+  // public stableRoutes = new Hono().use(authGuard) use this block if you want to apply middleware on this whole route path
 
   constructor() {
     // Base Stable Api Response
@@ -20,7 +23,7 @@ export class StableRoutes {
     // https://localhost:4000/stable/users/*
     this.stableRoutes.basePath("users")
       .get("/", safeAsync(usersServices.users))
-      .post("/create-user", safeAsync(usersServices.createUser))
+      .post("/create-user", authGuard, safeAsync(usersServices.createUser))
     // .patch('/')
     // .put('/')
     // .delete('/')
