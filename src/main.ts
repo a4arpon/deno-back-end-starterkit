@@ -4,30 +4,17 @@ import { Context, Hono } from "hono"
 import { cors } from "hono/cors"
 import { logger } from "hono/logger"
 import { secureHeaders } from "hono/secure-headers"
-import { load } from "load"
 import mongoose, { type ConnectOptions } from "mongoose"
+import { env } from "#config/env.ts"
 
 class Bootstrap {
-  public app = new Hono()
+  public app: Hono
 
   constructor() {
-    try {
-      this.middlewares()
-      this.routerSetup()
-      this.envLoader().then(async () => {
-        await this.databaseConnection()
-        console.log("Deno Running... 🦕🦖")
-      })
-    } catch (error) {
-      this.disconnectDB().then(() => {
-        console.error("Application has some runtime error : ", error)
-        Deno.exit(1)
-      })
-    }
-  }
-
-  private async envLoader() {
-    await load({ export: true })
+    this.app = new Hono()
+    this.middlewares()
+    this.routerSetup()
+    this.databaseConnection()
   }
 
   private middlewares() {
@@ -41,7 +28,7 @@ class Bootstrap {
     this.app.use(secureHeaders(helmetConfig))
   }
 
-  private async databaseConnection() {
+  private databaseConnection() {
     const options: Partial<ConnectOptions> = {
       autoIndex: false,
       retryWrites: true,
@@ -49,24 +36,20 @@ class Bootstrap {
       connectTimeoutMS: 12000,
     }
 
-    await mongoose
-      .connect(Deno.env.get("MONGODB_URL") || "", options as ConnectOptions)
+    mongoose
+      .connect(env.MONGODB_URL, options as ConnectOptions)
       .then(() => console.log("Database Connected... 🔌⚡✅"))
-  }
-
-  private async disconnectDB() {
-    await mongoose.disconnect()
-    console.error("Database Disconnected...🔌⚡❌")
+      .catch((err) => {
+        console.log("Database connection error", err)
+        Deno.exit(1)
+      })
   }
 
   private routerSetup() {
     this.app.get("/", (c: Context) => {
       return c.json({ msg: "Hello World, This is 🦕 Deno 🦖" })
     })
-
     this.app.route("/", new Router().router)
-
-    console.log("Routes loaded successfully..")
   }
 }
 
