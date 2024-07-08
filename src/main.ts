@@ -13,8 +13,8 @@ class Bootstrap {
   constructor() {
     try {
       this.envLoader().then(() => {
-        this.middlewares()
         this.databaseConnection()
+        this.middlewares()
         this.routerSetup()
         console.log("Deno Running... 🦕🦖")
       })
