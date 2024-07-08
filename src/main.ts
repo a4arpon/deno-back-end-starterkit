@@ -12,10 +12,10 @@ class Bootstrap {
 
   constructor() {
     try {
-      this.envLoader().then(() => {
-        this.databaseConnection()
-        this.middlewares()
-        this.routerSetup()
+      this.middlewares()
+      this.routerSetup()
+      this.envLoader().then(async () => {
+        await this.databaseConnection()
         console.log("Deno Running... 🦕🦖")
       })
     } catch (error) {
