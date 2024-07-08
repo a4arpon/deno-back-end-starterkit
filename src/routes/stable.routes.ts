@@ -1,6 +1,5 @@
 import { Hono } from "hono"
 import { UsersServices } from "#services/users.services.ts"
-import type { Context } from "#types/shared.types.ts"
 import { safeAsync } from "#utils/async.ts"
 import { response } from "#utils/response.ts"
 import { authGuard } from "#middlewares/auth.guard.ts"
@@ -11,7 +10,7 @@ export class StableRoutes {
 
   constructor() {
     // Base Stable Api Response
-    this.stableRoutes.get((c: Context) => response(c, "Stable api channel"))
+    this.stableRoutes.get((c) => response(c, "Stable api channel"))
 
     this.usersRoutes()
   }
