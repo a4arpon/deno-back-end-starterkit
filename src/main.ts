@@ -65,6 +65,8 @@ class Bootstrap {
     })
 
     this.app.route("/", new Router().router)
+
+    console.log("Routes loaded successfully..")
   }
 }
 
