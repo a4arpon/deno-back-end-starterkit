@@ -19,11 +19,12 @@
     }
   },
   "imports": {
-    "#routes/": "./src/routes/",
-    "#models/": "./src/models/",
-    "#types/": "./src/types/",
-    "#services/": "./src/services/",
     "#config/": "./src/config/",
+    "#middlewares/": "./src/middlewares/",
+    "#models/": "./src/models/",
+    "#routes/": "./src/routes/",
+    "#services/": "./src/services/",
+    "#types/": "./src/types/",
     "#lib/": "./src/lib/",
     "#utils/": "./src/utils/",
     "hono": "jsr:@hono/hono@^4.4.7",
