@@ -1,0 +1,11 @@
+{
+  "language_servers": ["deno", "snippet-completion-server", "json-language-server", "!biome"],
+  "languages": {
+    "TypeScript": {
+      "language_servers": ["deno", "snippet-completion-server"]
+    },
+    "JSON": {
+      "language_servers": ["json-language-server"]
+    }
+  }
+}
