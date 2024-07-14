@@ -11,8 +11,8 @@ export class StableRoutes {
   constructor() {
     // Base Stable Api Response
     this.stableRoutes.get((c) => response(c, "Stable api channel"))
-    console.log(Deno.env.get("ENVC"))
     this.usersRoutes()
+    this.postsRoutes()
   }
 
   private usersRoutes() {
@@ -25,5 +25,12 @@ export class StableRoutes {
     // .patch('/')
     // .put('/')
     // .delete('/')
+  }
+
+  private postsRoutes() {
+    this.stableRoutes.basePath("posts").get(
+      "/",
+      (c) => c.json({ msg: "Hello world" }),
+    )
   }
 }
