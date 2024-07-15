@@ -5,32 +5,34 @@ import { response } from "#utils/response.ts"
 import { authGuard } from "#middlewares/auth.guard.ts"
 
 export class StableRoutes {
-  public stableRoutes = new Hono()
+  public stableRoutes: Hono
   // public stableRoutes = new Hono().use(authGuard) - use this block if you want to apply middleware on this whole route path
 
   constructor() {
+    this.stableRoutes = new Hono()
     // Base Stable Api Response
     this.stableRoutes.get((c) => response(c, "Stable api channel"))
-    this.usersRoutes()
-    this.postsRoutes()
+    // Routes
+    this.stableRoutes.route("/users", this.usersRoutes())
+    this.stableRoutes.route("/posts", this.postsRoutes())
   }
 
-  private usersRoutes() {
-    const usersServices = new UsersServices()
-    // https://localhost:4000/stable/users/*
-    this.stableRoutes
-      .basePath("users")
-      .get("/", safeAsync(usersServices.users))
-      .post("/create-user", authGuard, safeAsync(usersServices.createUser))
-    // .patch('/')
-    // .put('/')
-    // .delete('/')
+  protected usersRoutes() {
+    const usersServicesInstance = new UsersServices()
+    return new Hono()
+      .get("/", safeAsync(usersServicesInstance.users))
+      .post(
+        "/create-user",
+        authGuard,
+        safeAsync(usersServicesInstance.createUser),
+      )
   }
 
-  private postsRoutes() {
-    this.stableRoutes.basePath("posts").get(
-      "/",
-      (c) => c.json({ msg: "Hello world" }),
-    )
+  protected postsRoutes() {
+    return new Hono()
+      .get(
+        "/",
+        (c) => c.json({ msg: "Hello world" }),
+      )
   }
 }
